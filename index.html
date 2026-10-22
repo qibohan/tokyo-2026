@@ -1,0 +1,713 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#FFF4EA">
+<title>东京初冬四日</title>
+<meta name="description" content="2026.11.13–11.16 东京自由行：路线、美食、费用和出发准备。骑马组合邀您同行。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%23E8643A'/%3E%3Cpath d='M32 12 L22 52 H42 Z' fill='%23fff'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="assets/leaflet.css">
+<style>
+@font-face{font-family:"WenKai";src:url("assets/fonts/wenkai.woff2") format("woff2");font-display:swap}
+@font-face{font-family:"KuaiLe";src:url("assets/fonts/kuaile.woff2") format("woff2");font-display:swap}
+/* Layout: phone-width app shell (max 480px), one scrolling tab panel, fixed bottom tab bar; warm late-autumn palette */
+:root{
+  --bg:#FFFAF4; --card:#FFFFFF; --ink:#2E2A33; --muted:#7A7380; --line:#F0E5D8;
+  --kaki:#E8643A; --kaki-soft:#FDE8DD;       /* 柿 persimmon, main accent */
+  --ai:#3A5592; --ai-soft:#E6ECF7;           /* 藍 indigo, D1 */
+  --matcha:#5E8E4E; --matcha-soft:#E7F1E1;   /* 抹茶, D2 */
+  --xmas:#D9473A; --xmas-soft:#FBE3DF;       /* 圣诞红, D3 */
+  --icho:#D0901A; --icho-soft:#FBF0D6;       /* 银杏, D4 */
+  --sakura:#F38BA6; --sakura-soft:#FFE6EE;   /* 彩蛋 */
+  --sea:#DCE8F3; --land:#FFFDF9; --land-edge:#EADFD2;
+  --f-display:"WenKai","Kaiti SC","STKaiti",serif;
+  --f-body:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  --f-cute:"KuaiLe","Yuanti SC","PingFang SC",sans-serif;
+  --tabbar:64px;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:#F6EEE4}
+body{color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased}
+.app{max-width:480px;margin:0 auto;min-height:100vh;background:var(--bg);position:relative;box-shadow:0 0 40px rgba(120,80,40,.08)}
+main{padding-bottom:calc(var(--tabbar) + env(safe-area-inset-bottom,0px) + 24px)}
+[hidden]{display:none!important}
+.pad{padding-left:max(18px,env(safe-area-inset-left,0px));padding-right:max(18px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--f-display);font-weight:500;margin:0;line-height:1.3;text-wrap:balance}
+p{margin:0}
+a{color:var(--ai)}
+.stack{display:flex;flex-direction:column;gap:14px}
+.sec{display:flex;flex-direction:column;gap:12px;padding-top:26px}
+.sec-h{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+.sec-h h2{font-size:21px}
+.sec-h .hint{font-size:12px;color:var(--muted)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px}
+.muted{color:var(--muted)}
+.num{font-variant-numeric:tabular-nums}
+
+/* ---------- hero ---------- */
+.hero{position:relative;padding-top:calc(env(safe-area-inset-top,0px) + 22px);padding-bottom:6px;
+  background:linear-gradient(180deg,#FFE7D4 0%,#FFF3E8 58%,var(--bg) 100%);overflow:hidden}
+.hero .eyebrow{font-size:12px;letter-spacing:.18em;color:var(--kaki);font-weight:600}
+.hero h1{font-size:38px;margin-top:4px;letter-spacing:.04em}
+.hero .sub{font-size:14px;color:#6B5E57;margin-top:6px}
+.hero svg.sky{display:block;width:100%;height:auto;margin-top:10px}
+.facts{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.fact{font-size:12.5px;background:rgba(255,255,255,.75);border:1px solid #F5D9C6;color:#6B4B3A;padding:3px 10px;border-radius:999px}
+.tab-hero{padding-top:calc(env(safe-area-inset-top,0px) + 24px);padding-bottom:4px}
+.tab-hero .eyebrow{font-size:12px;letter-spacing:.18em;font-weight:600}
+.tab-hero h1{font-size:30px;margin-top:2px}
+.tab-hero p{font-size:14px;color:var(--muted);margin-top:6px}
+
+/* egg sticker */
+.sticker{position:absolute;right:14px;top:calc(env(safe-area-inset-top,0px) + 14px);border:0;background:none;padding:0;cursor:pointer;
+  display:flex;flex-direction:column;align-items:center;gap:2px;animation:bob 3.2s ease-in-out infinite}
+.sticker svg{width:62px;height:62px;filter:drop-shadow(0 4px 6px rgba(200,90,60,.25))}
+.sticker span{font-family:var(--f-cute);font-size:12px;color:#fff;background:var(--sakura);padding:1px 8px;border-radius:999px;white-space:nowrap}
+@keyframes bob{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-5px) rotate(4deg)}}
+
+/* highlights */
+.hl{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.hl .item{padding:12px;display:flex;flex-direction:column;gap:4px;border-radius:14px;min-width:0}
+.hl .item b{font-family:var(--f-display);font-weight:500;font-size:16px}
+.hl .item span{font-size:12.5px;color:var(--muted)}
+
+/* ---------- map + day switch ---------- */
+.pills{display:flex;gap:6px;overflow-x:auto;padding:2px 0 4px;scrollbar-width:none}
+.pills::-webkit-scrollbar{display:none}
+.pill{flex:0 0 auto;font:inherit;font-size:13px;padding:6px 13px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;display:flex;align-items:center;gap:6px}
+.pill .dot{width:8px;height:8px;border-radius:50%;background:var(--c,var(--ink))}
+.pill[aria-pressed="true"]{background:var(--c,var(--ink));border-color:var(--c,var(--ink));color:#fff}
+.pill[aria-pressed="true"] .dot{background:#fff}
+.pill:focus-visible,.tb:focus-visible,.gm:focus-visible,.btn:focus-visible{outline:2px solid var(--kaki);outline-offset:2px}
+.mapcard{overflow:hidden;padding:0}
+#map{height:300px;background:var(--land);position:relative;z-index:0;font-family:var(--f-body)}
+.leaflet-container{background:var(--land)!important}
+.maplegend{display:flex;flex-wrap:wrap;gap:3px 12px;padding:8px 12px;border-top:1px solid var(--line);font-size:11.5px;color:var(--muted)}
+.maplegend i{display:inline-block;width:14px;height:3px;border-radius:2px;vertical-align:3px;margin-right:4px}
+.pin{display:flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;background:var(--c);color:#fff;font:600 12px/1 var(--f-body);border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.pin.home{border-radius:7px;background:var(--ink);font-size:12px}
+.leaflet-tooltip.lbl{background:#fff;color:var(--ink);border:1px solid var(--line);box-shadow:none;font-size:12px;padding:1px 6px;border-radius:5px}
+.leaflet-tooltip.lbl::before{display:none}
+.leaflet-popup-content{margin:10px 12px;font-size:13px;line-height:1.5}
+.leaflet-popup-content b{font-size:14px}
+.leaflet-control-attribution{font-size:10px}
+
+/* overview cards */
+.ov{display:flex;flex-direction:column;gap:10px}
+.ovc{display:grid;grid-template-columns:52px 1fr 16px;gap:12px;align-items:center;padding:12px 14px;text-align:left;font:inherit;color:inherit;cursor:pointer;width:100%}
+.ovc .d{font-family:var(--f-display);font-size:14px;line-height:1.2;color:#fff;background:var(--c);border-radius:12px;padding:8px 0;text-align:center}
+.ovc .d small{display:block;font-size:11px;opacity:.9;font-family:var(--f-body)}
+.ovc b{font-family:var(--f-display);font-weight:500;font-size:16px;display:block}
+.ovc span.s{font-size:12.5px;color:var(--muted)}
+.ovc .arr{color:var(--muted)}
+
+/* day timeline */
+.dayhead{display:flex;flex-direction:column;gap:4px;padding:14px 16px;border-radius:16px;background:var(--cs);border:1px solid transparent}
+.dayhead .tag{font-size:12px;font-weight:600;color:var(--c);letter-spacing:.06em}
+.dayhead h3{font-size:20px}
+.dayhead p{font-size:13px;color:#5F5864}
+.tl{padding:6px 0}
+.st{display:grid;grid-template-columns:50px 1fr;gap:10px;padding:10px 14px;position:relative}
+.st + .st{border-top:1px dashed var(--line)}
+.st .t{font-size:13px;font-weight:600;color:var(--c);padding-top:1px}
+.st .w{min-width:0;display:flex;flex-direction:column;gap:2px}
+.st .w b{font-size:15px;font-weight:600}
+.st .w .n{font-size:13px;color:var(--muted)}
+.st.mv{background:#FFFBF7}
+.st.mv .t{color:var(--muted);font-weight:500}
+.st.mv .w{font-size:13px;color:var(--muted);flex-direction:row;flex-wrap:wrap;align-items:center;gap:4px 8px}
+.badge{display:inline-block;font-size:11px;line-height:1.6;padding:0 7px;border-radius:999px;margin-left:6px;vertical-align:2px;font-weight:500}
+.badge.book{background:var(--kaki-soft);color:var(--kaki)}
+.badge.free{background:var(--matcha-soft);color:var(--matcha)}
+.gm{display:inline-flex;align-items:center;gap:2px;font-size:12px;line-height:1.6;text-decoration:none;color:var(--ai);background:var(--ai-soft);border-radius:999px;padding:0 9px;align-self:flex-start;margin-top:3px}
+.st.mv .gm{margin-top:0}
+.note{font-size:13px;color:#6B5E57;background:var(--icho-soft);border-radius:12px;padding:10px 12px}
+.stay{padding:14px 16px;display:flex;flex-direction:column;gap:4px}
+.stay b{font-family:var(--f-display);font-weight:500;font-size:17px}
+.stay p{font-size:13px;color:var(--muted)}
+
+/* ---------- food ---------- */
+.food{display:flex;flex-direction:column;gap:10px}
+.fd{padding:14px;display:grid;grid-template-columns:44px 1fr;gap:12px;align-items:start}
+.fd .ic{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-family:var(--f-display);font-size:20px;color:#fff;background:var(--c)}
+.fd .w{min-width:0;display:flex;flex-direction:column;gap:3px}
+.fd .top{display:flex;align-items:baseline;gap:6px;flex-wrap:wrap}
+.fd b{font-size:16px;font-weight:600}
+.fd .jp{font-size:12px;color:var(--muted)}
+.fd .what{font-size:13.5px}
+.fd .meta{display:flex;flex-wrap:wrap;gap:4px 10px;font-size:12px;color:var(--muted);align-items:center}
+.fd .meta .day{color:var(--c);font-weight:600}
+.rules{padding:6px 16px}
+.rules li{padding:8px 0;border-top:1px dashed var(--line);font-size:13.5px}
+.rules li:first-child{border-top:0}
+ul.clean{list-style:none;margin:0;padding:0}
+
+/* ---------- cost ---------- */
+.total{padding:18px 16px;display:flex;flex-direction:column;gap:10px;background:linear-gradient(135deg,#FFF0E6,#FFF8EF);border-color:#F6D8C4}
+.total .lab{font-size:13px;color:#8A5A44}
+.total .big{font-family:var(--f-display);font-size:36px;line-height:1.1;color:var(--kaki)}
+.total .big small{font-size:16px;color:#8A5A44;margin-left:4px}
+.bar{display:flex;height:12px;border-radius:999px;overflow:hidden;background:#fff}
+.bar i{display:block;height:100%}
+.legend2{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:12px;color:#7A6458}
+.legend2 i{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:4px;vertical-align:0}
+.rows{padding:4px 16px}
+.cr{display:grid;grid-template-columns:1fr auto;gap:2px 10px;padding:11px 0;border-top:1px dashed var(--line)}
+.cr:first-child{border-top:0}
+.cr b{font-size:14.5px;font-weight:600;display:flex;align-items:center;gap:7px}
+.cr b i{width:9px;height:9px;border-radius:3px;display:inline-block}
+.cr .v{font-size:14.5px;font-weight:600;text-align:right;white-space:nowrap}
+.cr .d{grid-column:1/-1;font-size:12.5px;color:var(--muted)}
+.foot{font-size:12px;color:var(--muted);line-height:1.6}
+
+/* ---------- prep ---------- */
+.todo{padding:4px 0}
+.ck{display:grid;grid-template-columns:22px 1fr;gap:10px;padding:11px 14px;border-top:1px dashed var(--line);align-items:start}
+.ck:first-child{border-top:0}
+.ck input{width:18px;height:18px;margin:2px 0 0;accent-color:var(--kaki)}
+.ck .when{display:inline-block;font-size:11px;font-weight:600;color:var(--kaki);background:var(--kaki-soft);border-radius:999px;padding:0 7px;margin-right:6px;vertical-align:1px}
+.ck label{font-size:14px}
+.ck .sub{display:block;font-size:12.5px;color:var(--muted);margin-top:2px}
+.ck input:checked + label{color:var(--muted);text-decoration:line-through}
+.apps{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.app-i{padding:12px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.app-i b{font-size:14px}
+.app-i span{font-size:12px;color:var(--muted)}
+.pack{display:flex;flex-wrap:wrap;gap:8px}
+.pk{font-size:13px;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:5px 12px}
+.pk em{font-style:normal;color:var(--muted);font-size:12px;margin-left:4px}
+.weather{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.wd{padding:10px 6px;text-align:center;display:flex;flex-direction:column;gap:2px}
+.wd small{font-size:11px;color:var(--muted)}
+.wd b{font-family:var(--f-display);font-weight:500;font-size:17px}
+
+/* ---------- tab bar ---------- */
+.tabbar{position:fixed;left:0;right:0;bottom:0;z-index:1200;display:flex;justify-content:center;pointer-events:none}
+.tabbar .in{pointer-events:auto;width:100%;max-width:480px;display:grid;grid-template-columns:repeat(4,1fr);
+  background:rgba(255,252,248,.94);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-top:1px solid var(--line);
+  padding:6px max(6px,env(safe-area-inset-left,0px)) calc(6px + env(safe-area-inset-bottom,0px)) max(6px,env(safe-area-inset-right,0px))}
+.tb{font:inherit;border:0;background:none;display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px 0;color:#9A929F;cursor:pointer;font-size:11.5px}
+.tb svg{width:24px;height:24px}
+.tb[aria-selected="true"]{color:var(--kaki);font-weight:600}
+
+/* ---------- easter egg ---------- */
+.egg{position:fixed;inset:0;z-index:2000;display:flex;align-items:center;justify-content:center;padding:24px;background:rgba(90,45,60,.45)}
+.egg-card{position:relative;width:100%;max-width:380px;border-radius:28px;padding:26px 22px 22px;text-align:center;
+  background:radial-gradient(circle at 20% 10%,#FFF4F7 0,transparent 45%),radial-gradient(circle at 90% 90%,#FFF1DC 0,transparent 50%),#FFE9F0;
+  border:3px solid #fff;box-shadow:0 18px 50px rgba(200,80,110,.3);font-family:var(--f-cute);color:#7A3A4F;animation:pop .45s cubic-bezier(.2,1.4,.4,1)}
+@keyframes pop{from{transform:scale(.85)}to{transform:scale(1)}}
+.egg-card .x{position:absolute;right:12px;top:10px;border:0;background:#fff;color:#C9718A;width:30px;height:30px;border-radius:50%;font-size:18px;cursor:pointer;font-family:var(--f-cute)}
+.egg-card svg.horse{width:120px;height:120px;margin:-4px auto 2px;display:block}
+.egg-card .t1{font-size:15px;color:#C9718A;letter-spacing:.1em}
+.egg-card .t2{font-size:30px;line-height:1.25;margin-top:2px;color:#E0587D}
+.egg-card .msg{font-size:16px;line-height:1.7;color:#8A4A5E;margin-top:14px}
+.egg-card .btns{display:flex;gap:10px;justify-content:center;margin-top:16px}
+.btn{font-family:var(--f-cute);font-size:17px;border:0;border-radius:999px;padding:10px 20px;cursor:pointer}
+.btn.yes{background:#F06C92;color:#fff;box-shadow:0 4px 0 #C94E72}
+.btn.yes:active{transform:translateY(3px);box-shadow:0 1px 0 #C94E72}
+.btn.no{background:#fff;color:#C9718A;box-shadow:0 4px 0 #F2C3D1}
+.egg-card .ok{font-size:17px;color:#E0587D;margin-top:14px;min-height:1.7em}
+#confetti{position:fixed;inset:0;pointer-events:none;z-index:2100}
+
+@media (prefers-reduced-motion: reduce){.sticker,.egg-card{animation:none}}
+@media (min-width:481px){.app{min-height:100vh}}
+</style>
+</head>
+<body>
+<div class="app">
+<main>
+
+<!-- ============ 旅程 ============ -->
+<section class="tab" id="tab-trip" aria-label="旅程">
+  <header class="hero pad">
+    <button class="sticker" id="egg-open" aria-label="打开彩蛋：骑马组合邀您同行">
+      <svg viewBox="0 0 120 120" aria-hidden="true"><use href="#horse"/></svg>
+      <span>戳我呀</span>
+    </button>
+    <div class="eyebrow">TOKYO · 2026.11</div>
+    <h1>东京初冬四日</h1>
+    <p class="sub">11.13 周五 – 11.16 周一 · 4 天 3 晚 · 自由行</p>
+    <div class="facts"><span class="fact">两人一间房</span><span class="fact">住日本桥人形町</span><span class="fact">迪士尼圣诞季</span></div>
+    <svg class="sky" viewBox="0 0 360 120" aria-hidden="true">
+      <circle cx="292" cy="40" r="20" fill="#FFC86B"/>
+      <path d="M120 112 L178 50 Q184 44 190 50 L250 112 Z" fill="#C9D3EC"/>
+      <path d="M166 63 L178 50 Q184 44 190 50 L202 63 Q196 60 191 65 Q186 59 181 65 Q175 59 166 63 Z" fill="#fff"/>
+      <g fill="#E8643A">
+        <path d="M70 112 L80 40 L82 40 L92 112 Z"/><rect x="73" y="74" width="16" height="3" rx="1"/><rect x="76" y="56" width="10" height="3" rx="1"/>
+        <rect x="80" y="26" width="2" height="16"/>
+      </g>
+      <g fill="#3A5592"><path d="M318 112 L322 20 L324 20 L328 112 Z"/><rect x="317" y="52" width="12" height="4" rx="2"/><rect x="318" y="38" width="10" height="3" rx="1.5"/></g>
+      <g fill="#E3A83A"><path d="M24 70 q10 -14 20 0 q-10 6 -20 0z"/><path d="M44 90 q8 -11 16 0 q-8 5 -16 0z" opacity=".8"/><path d="M262 92 q8 -11 16 0 q-8 5 -16 0z" opacity=".8"/></g>
+      <rect x="0" y="110" width="360" height="10" rx="5" fill="#F7DCC8"/>
+    </svg>
+  </header>
+
+  <div class="pad">
+    <div class="sec">
+      <div class="sec-h"><h2>这趟的四个高光</h2></div>
+      <div class="hl">
+        <div class="item" style="background:var(--ai-soft)"><b>涩谷 SKY 看日落</b><span>230 米露天屋顶，16:35 太阳落进城市</span></div>
+        <div class="item" style="background:var(--matcha-soft)"><b>teamLab 无界</b><span>麻布台之丘里的光影美术馆</span></div>
+        <div class="item" style="background:var(--xmas-soft)"><b>迪士尼圣诞季</b><span>圣诞游行加城堡前的烟花</span></div>
+        <div class="item" style="background:var(--icho-soft)"><b>清晨的浅草寺</b><span>七点半的雷门，几乎没有人</span></div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-h"><h2>每天怎么走</h2><span class="hint">点一天看地图和时间表</span></div>
+      <div class="pills" role="group" aria-label="选择哪一天">
+        <button class="pill" data-day="all" aria-pressed="true">总览</button>
+        <button class="pill" data-day="d1" style="--c:var(--ai)" aria-pressed="false"><span class="dot"></span>D1 涩谷</button>
+        <button class="pill" data-day="d2" style="--c:var(--matcha)" aria-pressed="false"><span class="dot"></span>D2 麻布台·新宿</button>
+        <button class="pill" data-day="d3" style="--c:var(--xmas)" aria-pressed="false"><span class="dot"></span>D3 迪士尼</button>
+        <button class="pill" data-day="d4" style="--c:var(--icho)" aria-pressed="false"><span class="dot"></span>D4 浅草</button>
+      </div>
+      <div class="card mapcard">
+        <div id="map" role="region" aria-label="东京路线地图"></div>
+        <div class="maplegend" id="legend"></div>
+      </div>
+
+      <!-- overview -->
+      <div class="ov" data-panel="all">
+        <button class="card ovc" data-go="d1" style="--c:var(--ai)"><span class="d">D1<small>11/13 五</small></span><span><b>原宿 → 涩谷看日落</b><span class="s">明治神宫 · 竹下通 · 涩谷 SKY · 涩谷横丁</span></span><span class="arr">›</span></button>
+        <button class="card ovc" data-go="d2" style="--c:var(--matcha)"><span class="d">D2<small>11/14 六</small></span><span><b>光影、古着、新宿夜</b><span class="s">筑地早饭 · teamLab · 东京塔 · 下北泽 · 都厅夜景</span></span><span class="arr">›</span></button>
+        <button class="card ovc" data-go="d3" style="--c:var(--xmas)"><span class="d">D3<small>11/15 日</small></span><span><b>迪士尼圣诞季</b><span class="s">开园玩到烟花，整整一天</span></span><span class="arr">›</span></button>
+        <button class="card ovc" data-go="d4" style="--c:var(--icho)"><span class="d">D4<small>11/16 一</small></span><span><b>浅草 · 晴空塔 → 回家</b><span class="s">清晨浅草寺 · 仲见世 · 晴空塔看富士山</span></span><span class="arr">›</span></button>
+        <div class="card stay">
+          <b>住在日本桥人形町</b>
+          <p>酒店在人形町、浜町、水天宫前三站之间。都营浅草线直通羽田、成田、浅草和晴空塔，日比谷线直达筑地和麻布台，都营新宿线一趟回新宿，四天都不用绕路。</p>
+        </div>
+      </div>
+
+      <!-- D1 -->
+      <div class="stack" data-panel="d1" hidden style="--c:var(--ai);--cs:var(--ai-soft)">
+        <div class="dayhead"><span class="tag">DAY 1 · 11/13 周五 · 日落 16:35</span><h3>原宿 → 涩谷看日落</h3><p>落地放下行李，下午逛明治神宫和竹下通，傍晚在涩谷 SKY 屋顶看日落和夜景。</p></div>
+        <div class="card tl">
+          <div class="st" data-q="羽田空港第3ターミナル"><span class="t">11:30</span><div class="w"><b>抵达羽田 T3</b><span class="n">扫 Visit Japan Web 二维码入境，手机钱包里的 Suica 充 ¥5,000</span></div></div>
+          <div class="st mv" data-from="羽田空港第3ターミナル駅" data-to="人形町駅"><span class="t">12:20</span><div class="w">京急直通都营浅草线到人形町 · 35 分钟</div></div>
+          <div class="st" data-q="玉ひで 人形町"><span class="t">13:00</span><div class="w"><b>人形町午饭</b><span class="n">玉ひで的亲子丼，饭后在甘酒横丁买一只鲷鱼烧。行李先寄存在酒店</span></div></div>
+          <div class="st mv" data-from="水天宮前駅" data-to="明治神宮前〈原宿〉駅"><span class="t">14:05</span><div class="w">半藏门线到表参道，换千代田线到明治神宫前 · 25 分钟</div></div>
+          <div class="st" data-q="明治神宮"><span class="t">14:30</span><div class="w"><b>明治神宫<span class="badge free">免费</span></b><span class="n">16 点前出来。正赶上七五三节，很多穿和服的小朋友</span></div></div>
+          <div class="st" data-q="竹下通り"><span class="t">15:10</span><div class="w"><b>原宿竹下通</b><span class="n">可丽饼，加上街拍</span></div></div>
+          <div class="st mv" data-from="明治神宮前〈原宿〉駅" data-to="渋谷駅"><span class="t">15:35</span><div class="w">副都心线 1 站到涩谷 · 3 分钟</div></div>
+          <div class="st" data-q="SHIBUYA SKY"><span class="t">15:50</span><div class="w"><b>涩谷 SKY<span class="badge book">要预约</span></b><span class="n">先看白天的城市，再看日落、晚霞，最后看夜景</span></div></div>
+          <div class="st" data-q="渋谷横丁"><span class="t">17:30</span><div class="w"><b>涩谷十字路口 · 涩谷横丁晚饭</b><span class="n">宫下公园一楼，日本各地的料理摊一字排开</span></div></div>
+          <div class="st mv" data-from="渋谷駅" data-to="水天宮前駅"><span class="t">20:00</span><div class="w">半藏门线直达水天宫前，回酒店 · 25 分钟</div></div>
+        </div>
+      </div>
+
+      <!-- D2 -->
+      <div class="stack" data-panel="d2" hidden style="--c:var(--matcha);--cs:var(--matcha-soft)">
+        <div class="dayhead"><span class="tag">DAY 2 · 11/14 周六</span><h3>光影、古着、新宿夜</h3><p>筑地吃早饭，上午看 teamLab，下午逛下北泽，晚上在新宿看夜景、吃串烧。</p></div>
+        <div class="card tl">
+          <div class="st mv" data-from="人形町駅" data-to="築地駅"><span class="t">07:15</span><div class="w">日比谷线 3 站到筑地 · 6 分钟</div></div>
+          <div class="st" data-q="築地場外市場"><span class="t">07:30</span><div class="w"><b>筑地场外市场早饭</b><span class="n">玉子烧、海鲜丼，再来一串金枪鱼</span></div></div>
+          <div class="st mv" data-from="築地駅" data-to="神谷町駅"><span class="t">08:35</span><div class="w">日比谷线直达神谷町，出站就是麻布台之丘 · 10 分钟</div></div>
+          <div class="st" data-q="teamLab Borderless 麻布台ヒルズ"><span class="t">09:00</span><div class="w"><b>teamLab Borderless<span class="badge book">要预约</span></b><span class="n">当天第一场，人最少，留出 2 小时</span></div></div>
+          <div class="st" data-q="麻布台ヒルズ マーケット"><span class="t">11:15</span><div class="w"><b>麻布台之丘 · 午饭</b><span class="n">地下一层的美食市集</span></div></div>
+          <div class="st" data-q="東京タワー"><span class="t">12:30</span><div class="w"><b>东京塔 · 芝公园<span class="badge free">免费</span></b><span class="n">步行 10 分钟，在芝公园拍东京塔的正脸</span></div></div>
+          <div class="st mv" data-from="神谷町駅" data-to="下北沢駅"><span class="t">13:10</span><div class="w">日比谷线到惠比寿，山手线到涩谷，井之头线到下北泽 · 40 分钟</div></div>
+          <div class="st" data-q="下北沢 BONUS TRACK"><span class="t">14:00</span><div class="w"><b>下北泽</b><span class="n">古着、唱片、咖啡。reload 和 BONUS TRACK 两个小街区最好逛</span></div></div>
+          <div class="st mv" data-from="下北沢駅" data-to="新宿駅"><span class="t">16:50</span><div class="w">小田急线到新宿 · 10 分钟</div></div>
+          <div class="st" data-q="東京都庁 展望室"><span class="t">17:20</span><div class="w"><b>东京都厅 45 楼<span class="badge free">免费</span></b><span class="n">天黑后的夜景，楼外墙还有光影秀</span></div></div>
+          <div class="st" data-q="思い出横丁"><span class="t">19:00</span><div class="w"><b>思出横丁 · 串烧</b><span class="n">小店挤着坐，一家满了就换下一家</span></div></div>
+          <div class="st" data-q="新宿ゴールデン街"><span class="t">20:30</span><div class="w"><b>歌舞伎町 · 黄金街</b><span class="n">看楼顶的哥斯拉头，去黄金街喝一杯。路边拉客的一律不理</span></div></div>
+          <div class="st mv" data-from="新宿駅" data-to="浜町駅"><span class="t">22:00</span><div class="w">都营新宿线直达浜町 · 20 分钟</div></div>
+        </div>
+      </div>
+
+      <!-- D3 -->
+      <div class="stack" data-panel="d3" hidden style="--c:var(--xmas);--cs:var(--xmas-soft)">
+        <div class="dayhead"><span class="tag">DAY 3 · 11/15 周日</span><h3>东京迪士尼 · 圣诞季</h3><p>从开园玩到烟花。快速通道要付费，入园就买。太空山在重建，2027 年才开。</p></div>
+        <div class="card tl">
+          <div class="st mv" data-from="人形町駅" data-to="舞浜駅"><span class="t">07:15</span><div class="w">日比谷线到八丁堀，换 JR 京叶线到舞浜 · 35 分钟</div></div>
+          <div class="st" data-q="東京ディズニーランド"><span class="t">07:55</span><div class="w"><b>入园口排队</b><span class="n">一般 9:00 开园，经常提前放人</span></div></div>
+          <div class="st"><span class="t">入园</span><div class="w"><b>先抢快速通道</b><span class="n">App 里买美女与野兽（约 ¥2,500），这一项最先卖完。一次只能拿一张，用完再买下一张</span></div></div>
+          <div class="st"><span class="t">上午</span><div class="w"><b>大项目连刷</b><span class="n">星际旅行只能排队，趁早去；大雷山、小熊维尼猎蜜记、怪兽电力公司用快速通道</span></div></div>
+          <div class="st"><span class="t">中午</span><div class="w"><b>圣诞游行 Toys Wondrous Christmas!</b><span class="n">提前 30 分钟占位，场次看 App</span></div></div>
+          <div class="st"><span class="t">傍晚</span><div class="w"><b>夜间游行 Dreamlights 圣诞版</b></div></div>
+          <div class="st"><span class="t">夜间</span><div class="w"><b>圣诞烟花 Starbright Christmas</b><span class="n">在灰姑娘城堡前看，约 5 分钟。风大会取消</span></div></div>
+          <div class="st mv" data-from="舞浜駅" data-to="人形町駅"><span class="t">21:00</span><div class="w">JR 到八丁堀，换日比谷线回人形町。走不动就从八丁堀打车，约 ¥1,200</div></div>
+        </div>
+      </div>
+
+      <!-- D4 -->
+      <div class="stack" data-panel="d4" hidden style="--c:var(--icho);--cs:var(--icho-soft)">
+        <div class="dayhead"><span class="tag">DAY 4 · 11/16 周一</span><h3>浅草 · 晴空塔 → 回家</h3><p>工作日的清晨，浅草人最少。11 月晴天的上午，在晴空塔上很有机会看到富士山。</p></div>
+        <div class="card tl">
+          <div class="st"><span class="t">07:00</span><div class="w"><b>退房</b><span class="n">行李寄存在前台</span></div></div>
+          <div class="st mv" data-from="人形町駅" data-to="浅草駅"><span class="t">07:20</span><div class="w">都营浅草线到浅草 · 10 分钟</div></div>
+          <div class="st" data-q="浅草寺"><span class="t">07:35</span><div class="w"><b>雷门 · 浅草寺<span class="badge free">免费</span></b><span class="n">清晨的本堂和五重塔，拍照几乎不用等</span></div></div>
+          <div class="st" data-q="仲見世通り"><span class="t">09:30</span><div class="w"><b>仲见世通 · 边走边吃</b><span class="n">人形烧、菠萝包、炸肉饼当早饭</span></div></div>
+          <div class="st mv" data-from="浅草寺" data-to="東京スカイツリー" data-mode="walking"><span class="t">10:15</span><div class="w">步行过吾妻桥到晴空塔 · 20 分钟</div></div>
+          <div class="st" data-q="東京スカイツリー"><span class="t">10:40</span><div class="w"><b>晴空塔 350m + 450m</b><span class="n">天气好时，西南方向能看到富士山</span></div></div>
+          <div class="st" data-q="東京ソラマチ"><span class="t">11:50</span><div class="w"><b>晴空街道 · 午饭和伴手礼</b><span class="n">六厘舍沾面，宝可梦中心</span></div></div>
+          <div class="st mv" data-from="押上駅" data-to="人形町駅"><span class="t">13:00</span><div class="w">浅草线回人形町取行李 · 12 分钟</div></div>
+          <div class="st mv" data-from="人形町駅" data-to="羽田空港第3ターミナル駅"><span class="t">13:30</span><div class="w">浅草线直通京急到羽田 · 40 分钟，赶 16:30 以后的航班</div></div>
+        </div>
+      </div>
+    </div>
+    <p class="foot" style="margin-top:14px">「导航」和地点链接会打开谷歌地图，在日本当地用流量打开就能看实时班次。地图底图 © OpenStreetMap 贡献者。</p>
+  </div>
+</section>
+
+<!-- ============ 美食 ============ -->
+<section class="tab" id="tab-food" aria-label="美食" hidden>
+  <header class="tab-hero pad"><div class="eyebrow" style="color:var(--kaki)">EAT</div><h1>顺路吃什么</h1><p>每一家都在当天的路线上，不用专门绕路。价格是每人大概的花费。</p></header>
+  <div class="pad">
+    <div class="sec">
+      <div class="sec-h"><h2>跟着路线吃</h2></div>
+      <div class="food">
+        <div class="card fd" style="--c:var(--ai)"><span class="ic">丼</span><div class="w"><div class="top"><b>玉ひで · 亲子丼</b><span class="jp">玉ひで</span></div><p class="what">开了两百多年的亲子丼老店，鸡蛋半熟滑嫩。中午要排队</p><div class="meta"><span class="day">D1 午饭</span><span>人形町</span><span>约 ¥2,000</span><a class="gm" data-q="玉ひで 人形町">地图 ↗</a></div></div></div>
+        <div class="card fd" style="--c:var(--ai)"><span class="ic">鲷</span><div class="w"><div class="top"><b>柳屋 · 鲷鱼烧</b><span class="jp">柳屋</span></div><p class="what">甘酒横丁的老铺，薄皮脆边，红豆馅满到尾巴</p><div class="meta"><span class="day">D1 饭后</span><span>人形町</span><span>约 ¥200</span><a class="gm" data-q="柳屋 たいやき 人形町">地图 ↗</a></div></div></div>
+        <div class="card fd" style="--c:var(--ai)"><span class="ic">卷</span><div class="w"><div class="top"><b>Marion Crêpes · 可丽饼</b><span class="jp">マリオンクレープ</span></div><p class="what">竹下通的招牌，草莓奶油或巧克力香蕉，边走边吃</p><div class="meta"><span class="day">D1 下午</span><span>原宿</span><span>约 ¥700</span><a class="gm" data-q="マリオンクレープ 原宿竹下通り">地图 ↗</a></div></div></div>
+        <div class="card fd" style="--c:var(--ai)"><span class="ic">横</span><div class="w"><div class="top"><b>涩谷横丁</b><span class="jp">渋谷横丁</span></div><p class="what">宫下公园一楼的居酒屋长街，北海道到冲绳的料理都有，热闹，不用订位</p><div class="meta"><span class="day">D1 晚饭</span><span>涩谷</span><span>约 ¥3,500</span><a class="gm" data-q="渋谷横丁">地图 ↗</a></div></div></div>
+        <div class="card fd" style="--c:var(--matcha)"><span class="ic">鲜</span><div class="w"><div class="top"><b>筑地场外市场</b><span class="jp">築地場外市場</span></div><p class="what">早上最热闹：现切金枪鱼、海胆海鲜丼、刚出锅的玉子烧</p><div class="meta"><span class="day">D2 早饭</span><span>筑地</span><span>约 ¥3,000</span><a class="gm" data-q="築地場外市場">地图 ↗</a></div></div></div>
+        <div class="card fd" style="--c:var(--matcha)"><span class="ic">市</span><div class="w"><div class="top"><b>麻布台之丘美食市集</b><span class="jp">麻布台ヒルズ マーケット</span></div><p class="what">地下一层，从寿司、面包到熟食，看完 teamLab 下楼就到</p><div class="meta"><span class="day">D2 午饭</span><span>麻布台</span><span>约 ¥2,500</span><a class="gm" data-q="麻布台ヒルズ マーケット">地图 ↗</a></div></div></div>
+        <div class="card fd" style="--c:var(--matcha)"><span class="ic">咖</span><div class="w"><div class="top"><b>Rojiura Curry SAMURAI. · 汤咖喱</b><span class="jp">下北沢店</span></div><p class="what">满满一碗蔬菜的札幌汤咖喱，逛累了来一碗。下午茶或者加餐都合适</p><div class="meta"><span class="day">D2 下午</span><span>下北泽</span><span>约 ¥1,800</span><a class="gm" data-q="Rojiura Curry SAMURAI. 下北沢店">地图 ↗</a></div></div></div>
+        <div class="card fd" style="--c:var(--matcha)"><span class="ic">串</span><div class="w"><div class="top"><b>思出横丁 · 串烧</b><span class="jp">思い出横丁</span></div><p class="what">新宿站旁的烟火小巷，鸡肉串、内脏串配一杯生啤</p><div class="meta"><span class="day">D2 晚饭</span><span>新宿</span><span>约 ¥4,000</span><a class="gm" data-q="思い出横丁">地图 ↗</a></div></div></div>
+        <div class="card fd" style="--c:var(--xmas)"><span class="ic">园</span><div class="w"><div class="top"><b>迪士尼园内</b><span class="jp">東京ディズニーランド</span></div><p class="what">烤火鸡腿、小绿人麻糬、圣诞限定的甜点和爆米花桶。用 App 手机点餐，到点就取</p><div class="meta"><span class="day">D3 全天</span><span>舞浜</span><span>约 ¥5,000</span></div></div></div>
+        <div class="card fd" style="--c:var(--icho)"><span class="ic">浅</span><div class="w"><div class="top"><b>仲见世通早饭</b><span class="jp">仲見世通り</span></div><p class="what">浅草メンチ的炸肉饼、花月堂的巨型菠萝包、木村家的人形烧</p><div class="meta"><span class="day">D4 早饭</span><span>浅草</span><span>约 ¥1,200</span><a class="gm" data-q="浅草メンチ">地图 ↗</a></div></div></div>
+        <div class="card fd" style="--c:var(--icho)"><span class="ic">面</span><div class="w"><div class="top"><b>六厘舍 · 沾面</b><span class="jp">六厘舎 東京ソラマチ店</span></div><p class="what">浓厚的鱼介豚骨汤头配粗面，晴空街道里就有，回机场前吃最后一顿</p><div class="meta"><span class="day">D4 午饭</span><span>晴空塔</span><span>约 ¥1,300</span><a class="gm" data-q="六厘舎 東京ソラマチ店">地图 ↗</a></div></div></div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-h"><h2>便利店也是美食</h2></div>
+      <div class="card rules"><ul class="clean">
+        <li><b>罗森</b>　炸鸡君（からあげクン），再拿一个蛋糕卷</li>
+        <li><b>全家</b>　全家炸鸡（ファミチキ），配一杯冰咖啡</li>
+        <li><b>7-11</b>　鸡蛋三明治和饭团，早上赶路的标配</li>
+      </ul></div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-h"><h2>吃饭的小规矩</h2></div>
+      <div class="card rules"><ul class="clean">
+        <li>不用给小费，账单上写多少就付多少</li>
+        <li>拉面店多半是门口的食券机先买券，有的只收现金</li>
+        <li>小店人多不一定能坐一起，进门先比手指说人数</li>
+        <li>边走边吃要看店家规矩，浅草仲见世通请在店门口吃完再走</li>
+      </ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 费用 ============ -->
+<section class="tab" id="tab-cost" aria-label="费用" hidden>
+  <header class="tab-hero pad"><div class="eyebrow" style="color:var(--kaki)">BUDGET</div><h1>大概要花多少</h1><p>按两人一间房来算，金额都是每人的人民币。</p></header>
+  <div class="pad">
+    <div class="sec">
+      <div class="card total">
+        <span class="lab">每人总计（含机票）</span>
+        <span class="big num">¥5,500–8,300<small>/ 人</small></span>
+        <div class="bar" aria-hidden="true">
+          <i style="width:34%;background:var(--ai)"></i><i style="width:22%;background:var(--matcha)"></i><i style="width:17%;background:var(--kaki)"></i><i style="width:16%;background:var(--icho)"></i><i style="width:11%;background:#B9A7C8"></i>
+        </div>
+        <div class="legend2"><span><i style="background:var(--ai)"></i>机票</span><span><i style="background:var(--matcha)"></i>住宿</span><span><i style="background:var(--kaki)"></i>门票</span><span><i style="background:var(--icho)"></i>吃饭</span><span><i style="background:#B9A7C8"></i>其他</span></div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-h"><h2>每一项</h2></div>
+      <div class="card rows">
+        <div class="cr"><b><i style="background:var(--ai)"></i>往返机票</b><span class="v num">¥1,800–3,000</span><span class="d">杭州 ⇄ 东京，去程选上午到羽田，回程选 16:30 以后起飞</span></div>
+        <div class="cr"><b><i style="background:var(--matcha)"></i>酒店 3 晚</b><span class="v num">¥1,200–1,900</span><span class="d">日本桥人形町一带，两人一间，一般含早餐</span></div>
+        <div class="cr"><b><i style="background:var(--kaki)"></i>门票和快速通道</b><span class="v num">¥1,050–1,350</span><span class="d">明细见下面</span></div>
+        <div class="cr"><b><i style="background:var(--icho)"></i>吃饭</b><span class="v num">¥900–1,300</span><span class="d">按美食页里的店算，每天约 ¥5,000–7,000</span></div>
+        <div class="cr"><b><i style="background:#B9A7C8"></i>市内交通</b><span class="v num">约 ¥180</span><span class="d">Suica 刷卡，含两趟机场往返</span></div>
+        <div class="cr"><b><i style="background:#B9A7C8"></i>签证</b><span class="v num">¥300–500</span><span class="d">日本单次旅游签，找旅行社代办</span></div>
+        <div class="cr"><b><i style="background:#B9A7C8"></i>流量 eSIM</b><span class="v num">¥50–100</span><span class="d">4 天 10GB 左右就够</span></div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-h"><h2>门票明细</h2><span class="hint">日元 · 每人</span></div>
+      <div class="card rows">
+        <div class="cr"><b>迪士尼一日票</b><span class="v num">¥9,400–12,400</span><span class="d">周日加圣诞季，价格偏高档</span></div>
+        <div class="cr"><b>迪士尼快速通道 2–3 张</b><span class="v num">¥4,000–5,500</span><span class="d">美女与野兽 ¥2,500，其他 ¥1,000–1,500</span></div>
+        <div class="cr"><b>teamLab Borderless</b><span class="v num">¥3,800–4,800</span><span class="d">周末场</span></div>
+        <div class="cr"><b>涩谷 SKY 日落场</b><span class="v num">¥3,000–3,500</span><span class="d">网上提前订</span></div>
+        <div class="cr"><b>晴空塔 350m + 450m</b><span class="v num">¥3,100–3,800</span><span class="d">可以当天买</span></div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-h"><h2>怎么付</h2></div>
+      <div class="card rules"><ul class="clean">
+        <li>酒店、门票这些要提前订的，一人统一订，再 AA</li>
+        <li>吃饭和零花各付各的，大部分店能刷信用卡或 Suica</li>
+        <li>每人带 2–3 万日元现金，小店和庙里会用到</li>
+      </ul></div>
+      <p class="foot">按 1 元 ≈ 22 日元估算。机票和酒店会随下单时间变化，以实际价格为准。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 准备 ============ -->
+<section class="tab" id="tab-prep" aria-label="出发准备" hidden>
+  <header class="tab-hero pad"><div class="eyebrow" style="color:var(--kaki)">CHECKLIST</div><h1>出发前要准备的</h1><p>按时间排好了，做完一项勾一项。勾选状态保存在你自己的手机上。</p></header>
+  <div class="pad">
+    <div class="sec">
+      <div class="sec-h"><h2>什么时候做什么</h2></div>
+      <div class="card todo" id="todo">
+        <div class="ck"><input type="checkbox" id="t1"><label for="t1"><span class="when">现在</span>办日本单次旅游签<span class="sub">找旅行社代办，按他们给的材料清单准备护照、照片、在职或收入证明。护照有效期要超过 6 个月</span></label></div>
+        <div class="ck"><input type="checkbox" id="t2"><label for="t2"><span class="when">这周</span>订机票<span class="sub">杭州上午出发、中午前到羽田；回程 16:30 以后从羽田起飞</span></label></div>
+        <div class="ck"><input type="checkbox" id="t3"><label for="t3"><span class="when">这周</span>订酒店，两人一间<span class="sub">人形町、浜町、水天宫前任一站附近</span></label></div>
+        <div class="ck"><input type="checkbox" id="t4"><label for="t4"><span class="when">这周</span>买迪士尼 11/15 门票<span class="sub">官网或 Tokyo Disney Resort App</span></label></div>
+        <div class="ck"><input type="checkbox" id="t5"><label for="t5"><span class="when">这周</span>订 teamLab 11/14 第一场<span class="sub">周末场次卖得很快</span></label></div>
+        <div class="ck"><input type="checkbox" id="t6"><label for="t6"><span class="when">10/30</span>抢涩谷 SKY 11/13 的日落场<span class="sub">提前约 2 周放票，订 15:40–16:00 入场。官网刷不了国内卡就用 Klook</span></label></div>
+        <div class="ck"><input type="checkbox" id="t7"><label for="t7"><span class="when">出发前一周</span>买 eSIM，换日元，填 Visit Japan Web</label></div>
+        <div class="ck"><input type="checkbox" id="t8"><label for="t8"><span class="when">出发前一晚</span>迪士尼 App 绑好门票和信用卡</label></div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-h"><h2>手机里装好</h2></div>
+      <div class="apps">
+        <div class="card app-i"><b>谷歌地图</b><span>换乘、步行都靠它，本页的导航也会跳过去</span></div>
+        <div class="card app-i"><b>Suica</b><span>iPhone 钱包里添加，坐车、便利店都能刷</span></div>
+        <div class="card app-i"><b>Visit Japan Web</b><span>入境和海关二维码，网页版就行</span></div>
+        <div class="card app-i"><b>Tokyo Disney Resort</b><span>门票、快速通道、手机点餐都在这里</span></div>
+        <div class="card app-i"><b>Klook</b><span>涩谷 SKY、晴空塔这些票可以在这上面订</span></div>
+        <div class="card app-i"><b>翻译 App</b><span>拍菜单、问路用</span></div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-h"><h2>那几天的天气</h2><span class="hint">往年 11 月中旬</span></div>
+      <div class="weather">
+        <div class="card wd"><small>白天</small><b>16–18°</b></div>
+        <div class="card wd"><small>早晚</small><b>9–11°</b></div>
+        <div class="card wd"><small>日落</small><b>16:35</b></div>
+        <div class="card wd"><small>下雨</small><b>偶尔</b></div>
+      </div>
+      <p class="note">穿衣按「卫衣或针织衫 + 薄外套」来，迪士尼看烟花那晚站着不动会冷，带一件薄羽绒。</p>
+    </div>
+
+    <div class="sec">
+      <div class="sec-h"><h2>行李清单</h2></div>
+      <div class="pack">
+        <span class="pk">护照<em>和复印件</em></span><span class="pk">好走的鞋<em>每天 2 万步</em></span><span class="pk">薄外套</span><span class="pk">薄羽绒</span>
+        <span class="pk">充电宝<em>只能随身</em></span><span class="pk">充电线</span><span class="pk">折叠伞</span><span class="pk">零钱包<em>硬币很多</em></span>
+        <span class="pk">日元现金<em>2–3 万</em></span><span class="pk">常用药</span><span class="pk">小垃圾袋<em>街上垃圾桶少</em></span><span class="pk">纸巾湿巾</span>
+      </div>
+      <p class="note">日本插座是两个扁头，国内两脚插头直接能用，三脚的要带转换头。</p>
+    </div>
+
+    <div class="sec">
+      <div class="sec-h"><h2>东京小规矩</h2></div>
+      <div class="card rules"><ul class="clean">
+        <li>坐扶梯靠左站，右边留给赶路的人</li>
+        <li>电车里不打电话，说话小点声</li>
+        <li>垃圾自己带走，到便利店或车站再扔</li>
+        <li>购物满 ¥5,000 可以免税，结账时出示护照</li>
+      </ul></div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<nav class="tabbar" aria-label="页面">
+  <div class="in" role="tablist">
+    <button class="tb" role="tab" data-tab="trip" aria-selected="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l-6 3V6l6-3 6 3 6-3v15l-6 3-6-3z"/><path d="M9 3v15M15 6v15"/></svg>旅程</button>
+    <button class="tb" role="tab" data-tab="food" aria-selected="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11h18a9 9 0 0 1-18 0z"/><path d="M8 4c0 2 2 2 2 4M13 4c0 2 2 2 2 4"/></svg>美食</button>
+    <button class="tb" role="tab" data-tab="cost" aria-selected="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8.5 7.5L12 12l3.5-4.5M12 12v6M9 13h6M9 16h6"/></svg>费用</button>
+    <button class="tb" role="tab" data-tab="prep" aria-selected="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="7" width="14" height="14" rx="3"/><path d="M9 7V5a3 3 0 0 1 6 0v2M9 13h6"/></svg>准备</button>
+  </div>
+</nav>
+</div>
+
+<!--EGG-->
+<div class="egg" id="egg" hidden role="dialog" aria-modal="true" aria-labelledby="egg-title">
+  <div class="egg-card">
+    <button class="x" id="egg-close" aria-label="关闭">×</button>
+    <svg class="horse" viewBox="0 0 120 120" aria-hidden="true"><use href="#horse"/></svg>
+    <div class="t1">叮咚～彩蛋来啦</div>
+    <div class="t2" id="egg-title">「骑马组合」<br>邀您同行</div>
+    <p class="msg">路线、美食、预算我们都排好啦<br>东京初冬四日，一起出发吧<br>人多吃饭更香，拍照也有人帮忙</p>
+    <div class="btns"><button class="btn yes" id="egg-yes">我要上车！</button><button class="btn no" id="egg-no">让我想想</button></div>
+    <p class="ok" id="egg-ok" aria-live="polite"></p>
+  </div>
+</div>
+<!--/EGG-->
+<canvas id="confetti" aria-hidden="true"></canvas>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="horse" viewBox="0 0 120 120">
+    <ellipse cx="60" cy="113" rx="30" ry="4.5" fill="#F4C9B4" opacity=".6"/>
+    <path d="M74 26 Q98 34 96 56 Q104 66 98 82 Q104 92 94 102 Q90 88 84 84 Z" fill="#9E5634"/>
+    <path d="M45 32 L41 9 L57 25 Z" fill="#E9A87C"/><path d="M46 28 L44 15 L53 25 Z" fill="#F7C6C6"/>
+    <path d="M65 25 L75 6 L77 30 Z" fill="#E9A87C"/><path d="M67 24 L74 13 L75 27 Z" fill="#F7C6C6"/>
+    <path d="M38 46 Q37 22 60 22 Q83 22 82 46 L84 80 Q85 104 61 105 Q37 105 38 80 Z" fill="#F2BE95"/>
+    <path d="M47 27 Q56 20 68 25 Q66 33 70 40 Q62 35 58 44 Q55 34 46 38 Q49 32 47 27 Z" fill="#9E5634"/>
+    <ellipse cx="61" cy="88" rx="21" ry="15" fill="#FBE0C9"/>
+    <ellipse cx="53" cy="87" rx="2.6" ry="3.6" fill="#9C5A3C"/><ellipse cx="69" cy="87" rx="2.6" ry="3.6" fill="#9C5A3C"/>
+    <path d="M55 96 Q61 100 67 96" stroke="#9C5A3C" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+    <ellipse cx="49" cy="60" rx="4.6" ry="5.6" fill="#3A2A2A"/><circle cx="50.6" cy="57.6" r="1.9" fill="#fff"/>
+    <ellipse cx="73" cy="60" rx="4.6" ry="5.6" fill="#3A2A2A"/><circle cx="74.6" cy="57.6" r="1.9" fill="#fff"/>
+    <ellipse cx="44" cy="71" rx="5.5" ry="3.4" fill="#F7A3B5" opacity=".8"/><ellipse cx="78" cy="71" rx="5.5" ry="3.4" fill="#F7A3B5" opacity=".8"/>
+    <path d="M24 44 q4 -8 10 -2 q4 6 -10 14 q-14 -8 -10 -14 q6 -6 10 2z" fill="#F06C92"/>
+  </symbol>
+</svg>
+
+<script src="assets/leaflet.js"></script>
+<script>
+(function(){
+  /* ---------- tabs ---------- */
+  var TABS=['trip','food','cost','prep'];
+  function showTab(name,push){
+    if(TABS.indexOf(name)<0) name='trip';
+    TABS.forEach(function(t){document.getElementById('tab-'+t).hidden=(t!==name)});
+    document.querySelectorAll('.tb').forEach(function(b){b.setAttribute('aria-selected',String(b.dataset.tab===name))});
+    if(push) history.replaceState(null,'','#'+name);
+    window.scrollTo(0,0);
+    if(name==='trip'&&window.__map) setTimeout(function(){window.__map.invalidateSize()},30);
+  }
+  document.querySelectorAll('.tb').forEach(function(b){b.addEventListener('click',function(){showTab(b.dataset.tab,true)})});
+  showTab((location.hash||'#trip').slice(1),false);
+
+  /* ---------- google maps links ---------- */
+  var GM='https://www.google.com/maps/';
+  function searchUrl(q){return GM+'search/?api=1&query='+encodeURIComponent(q)}
+  function dirUrl(a,b,mode){return GM+'dir/?api=1&origin='+encodeURIComponent(a)+'&destination='+encodeURIComponent(b)+'&travelmode='+(mode||'transit')}
+  function mk(href,txt){var a=document.createElement('a');a.className='gm';a.href=href;a.target='_blank';a.rel='noopener';a.textContent=txt;return a}
+  document.querySelectorAll('.st[data-q], .st[data-from]').forEach(function(r){
+    var w=r.querySelector('.w');
+    w.appendChild(r.dataset.from?mk(dirUrl(r.dataset.from,r.dataset.to,r.dataset.mode),'导航 ↗'):mk(searchUrl(r.dataset.q),'地图 ↗'));
+  });
+  document.querySelectorAll('a.gm[data-q]').forEach(function(a){a.href=searchUrl(a.dataset.q);a.target='_blank';a.rel='noopener'});
+
+  /* ---------- checklist ---------- */
+  var KEY='tokyo-h5-todo',saved={};
+  try{saved=JSON.parse(localStorage.getItem(KEY)||'{}')||{}}catch(e){}
+  document.querySelectorAll('#todo input').forEach(function(cb){
+    if(saved[cb.id])cb.checked=true;
+    cb.addEventListener('change',function(){saved[cb.id]=cb.checked;try{localStorage.setItem(KEY,JSON.stringify(saved))}catch(e){}});
+  });
+
+  /* ---------- easter egg ---------- */
+  var egg=document.getElementById('egg'),ok=document.getElementById('egg-ok');
+  function openEgg(){egg.hidden=false;ok.textContent='';document.getElementById('egg-yes').focus()}
+  function closeEgg(){egg.hidden=true;document.getElementById('egg-open').focus()}
+  document.getElementById('egg-open').addEventListener('click',openEgg);
+  document.getElementById('egg-close').addEventListener('click',closeEgg);
+  egg.addEventListener('click',function(e){if(e.target===egg)closeEgg()});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!egg.hidden)closeEgg()});
+  document.getElementById('egg-yes').addEventListener('click',function(){ok.textContent='上车成功！截图发给骑马组合就算报名啦～';confetti()});
+  document.getElementById('egg-no').addEventListener('click',function(){ok.textContent='好哒～签证要提前办，早点告诉我们哦'});
+
+  var cv=document.getElementById('confetti'),cx=cv.getContext('2d');
+  function confetti(){
+    if(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var dpr=window.devicePixelRatio||1;cv.width=innerWidth*dpr;cv.height=innerHeight*dpr;cx.setTransform(dpr,0,0,dpr,0,0);
+    var cols=['#F06C92','#FFC86B','#E8643A','#7FB069','#8FA8E0','#FFFFFF'],P=[];
+    for(var i=0;i<120;i++)P.push({x:innerWidth/2+(Math.random()-.5)*80,y:innerHeight*.45,vx:(Math.random()-.5)*11,vy:-Math.random()*13-4,
+      r:Math.random()*5+3,c:cols[i%cols.length],a:Math.random()*6,va:(Math.random()-.5)*.3,h:i%3===0});
+    var t0=performance.now();
+    (function f(t){
+      cx.clearRect(0,0,innerWidth,innerHeight);
+      P.forEach(function(p){p.vy+=.35;p.vx*=.99;p.x+=p.vx;p.y+=p.vy;p.a+=p.va;cx.save();cx.translate(p.x,p.y);cx.rotate(p.a);cx.fillStyle=p.c;
+        if(p.h){cx.beginPath();cx.moveTo(0,p.r*.3);cx.bezierCurveTo(-p.r,-p.r*.6,-p.r*.4,-p.r*1.3,0,-p.r*.5);cx.bezierCurveTo(p.r*.4,-p.r*1.3,p.r,-p.r*.6,0,p.r*.3);cx.fill()}
+        else cx.fillRect(-p.r/2,-p.r/4,p.r,p.r/2);cx.restore()});
+      if(t-t0<2600)requestAnimationFrame(f);else cx.clearRect(0,0,innerWidth,innerHeight);
+    })(t0);
+  }
+
+  /* ---------- day switch + map ---------- */
+  var panels=document.querySelectorAll('[data-panel]');
+  var current='all';
+  function selectDay(d,scroll){
+    current=d;
+    document.querySelectorAll('.pill').forEach(function(p){p.setAttribute('aria-pressed',String(p.dataset.day===d))});
+    panels.forEach(function(p){p.hidden=(p.dataset.panel!==d)});
+    if(window.__draw) window.__draw();
+    if(scroll){var pills=document.querySelector('.pills');window.scrollTo({top:pills.getBoundingClientRect().top+scrollY-12,behavior:'smooth'})}
+  }
+  document.querySelectorAll('.pill').forEach(function(p){p.addEventListener('click',function(){selectDay(p.dataset.day,false)})});
+  document.querySelectorAll('.ovc').forEach(function(b){b.addEventListener('click',function(){selectDay(b.dataset.go,true)})});
+
+  if(!window.L) return;
+  var P={
+    hnd:[35.5446,139.7683],tenkubashi:[35.5487,139.7580],kamata:[35.5610,139.7238],shinagawa:[35.6285,139.7387],
+    sengakuji:[35.6384,139.7401],mita:[35.6481,139.7473],daimon:[35.6566,139.7548],shimbashi:[35.6663,139.7586],
+    higashiginza:[35.6695,139.7672],takaracho:[35.6750,139.7750],nihombashi:[35.6820,139.7740],ningyocho:[35.6862,139.7823],
+    hotel:[35.6884,139.7881],suitengumae:[35.6826,139.7853],mitsukoshimae:[35.6868,139.7731],otemachi:[35.6867,139.7639],
+    jimbocho:[35.6959,139.7576],kudanshita:[35.6955,139.7514],hanzomon:[35.6858,139.7413],nagatacho:[35.6786,139.7403],
+    aoyama1:[35.6728,139.7240],omotesando:[35.6654,139.7122],meijijingumae:[35.6688,139.7056],meiji:[35.6764,139.6993],
+    takeshita:[35.6716,139.7036],shibuyasky:[35.6584,139.7022],yokocho:[35.6618,139.7019],shibuya:[35.6580,139.7016],
+    kayabacho:[35.6797,139.7798],hatchobori:[35.6748,139.7775],tsukiji:[35.6680,139.7720],tsukijimkt:[35.6654,139.7707],
+    ginza:[35.6717,139.7639],hibiya:[35.6746,139.7600],kasumigaseki:[35.6731,139.7505],toranomon:[35.6669,139.7490],
+    kamiyacho:[35.6628,139.7451],teamlab:[35.6605,139.7405],tower:[35.6586,139.7454],roppongi:[35.6628,139.7314],
+    hiroo:[35.6524,139.7222],ebisu:[35.6467,139.7101],shinsen:[35.6574,139.6936],shimokita:[35.6614,139.6680],
+    yoyogiuehara:[35.6690,139.6797],shinjuku:[35.6896,139.7006],tocho:[35.6896,139.6917],omoide:[35.6930,139.6993],
+    kabuki:[35.6945,139.7035],shinjuku3:[35.6907,139.7066],akebonobashi:[35.6924,139.7230],ichigaya:[35.6913,139.7357],
+    ogawamachi:[35.6951,139.7672],iwamotocho:[35.6955,139.7757],bakuroyokoyama:[35.6923,139.7826],etchujima:[35.6676,139.7928],
+    shiomi:[35.6586,139.8172],shinkiba:[35.6458,139.8270],kasai:[35.6442,139.8619],maihama:[35.6366,139.8838],tdl:[35.6326,139.8806],
+    higashinihombashi:[35.6922,139.7848],asakusabashi:[35.6973,139.7860],kuramae:[35.7037,139.7908],asakusa:[35.7107,139.7976],
+    kaminarimon:[35.7111,139.7964],sensoji:[35.7148,139.7967],nakamise:[35.7128,139.7965],azumabashi:[35.7101,139.7990],
+    skytree:[35.7101,139.8107],oshiage:[35.7104,139.8133],honjoazumabashi:[35.7085,139.8044]
+  };
+  var DAYS={
+    d1:{c:'--ai',lines:['keikyu','asakusa','hanzomon','chiyoda','fukutoshin'],
+      path:'hnd tenkubashi kamata shinagawa sengakuji mita daimon shimbashi higashiginza takaracho nihombashi ningyocho suitengumae mitsukoshimae otemachi jimbocho kudanshita hanzomon nagatacho aoyama1 omotesando meijijingumae meiji takeshita shibuyasky yokocho shibuya omotesando aoyama1 nagatacho hanzomon kudanshita jimbocho otemachi mitsukoshimae suitengumae hotel',
+      stops:[['hnd','羽田机场 T3','11:30 落地','羽田空港第3ターミナル'],['ningyocho','人形町','13:00 午饭','玉ひで 人形町'],['meiji','明治神宫','14:30','明治神宮','left'],['takeshita','竹下通','15:10','竹下通り'],['shibuyasky','涩谷 SKY','15:50 · 日落 16:35','SHIBUYA SKY','left'],['yokocho','涩谷横丁','17:30 晚饭','渋谷横丁']]},
+    d2:{c:'--matcha',lines:['hibiya','yamanote','inokashira','odakyu','shinjuku'],
+      path:'hotel ningyocho kayabacho hatchobori tsukiji tsukijimkt tsukiji higashiginza ginza hibiya kasumigaseki toranomon kamiyacho teamlab tower kamiyacho roppongi hiroo ebisu shibuya shinsen shimokita yoyogiuehara shinjuku tocho omoide kabuki shinjuku3 akebonobashi ichigaya kudanshita jimbocho ogawamachi iwamotocho bakuroyokoyama hotel',
+      stops:[['tsukijimkt','筑地场外市场','07:30 早饭','築地場外市場'],['teamlab','teamLab · 麻布台','09:00 → 午饭','teamLab Borderless 麻布台ヒルズ','left'],['tower','东京塔','12:30','東京タワー'],['shimokita','下北泽','14:00','下北沢 BONUS TRACK'],['tocho','东京都厅','17:20 夜景','東京都庁 展望室','left'],['omoide','思出横丁','19:00 串烧','思い出横丁','top'],['kabuki','歌舞伎町 · 黄金街','20:30','新宿ゴールデン街']]},
+    d3:{c:'--xmas',lines:['hibiya','keiyo'],
+      path:'hotel ningyocho kayabacho hatchobori etchujima shiomi shinkiba kasai maihama tdl',
+      stops:[['hatchobori','八丁堀','换 JR 京叶线','八丁堀駅'],['tdl','东京迪士尼乐园','07:55 → 21:00','東京ディズニーランド']]},
+    d4:{c:'--icho',lines:['asakusa','keikyu'],
+      path:'hotel ningyocho higashinihombashi asakusabashi kuramae asakusa kaminarimon sensoji nakamise azumabashi skytree oshiage honjoazumabashi asakusa kuramae asakusabashi higashinihombashi ningyocho nihombashi takaracho higashiginza shimbashi daimon mita sengakuji shinagawa kamata tenkubashi hnd',
+      stops:[['sensoji','浅草寺','07:35','浅草寺','top'],['nakamise','仲见世通','09:30','仲見世通り','left'],['skytree','晴空塔','10:40','東京スカイツリー'],['ningyocho','人形町','13:00 取行李','人形町駅'],['hnd','羽田机场 T3','回家','羽田空港第3ターミナル']]}
+  };
+  var NAMES={asakusa:'都营浅草线',keikyu:'京急线',hibiya:'日比谷线',hanzomon:'半藏门线',shinjuku:'都营新宿线',chiyoda:'千代田线',fukutoshin:'副都心线',yamanote:'JR 山手线',keiyo:'JR 京叶线',inokashira:'京王井之头线',odakyu:'小田急线'};
+  var ORDER=['d1','d2','d3','d4'];
+  function tok(n){return getComputedStyle(document.documentElement).getPropertyValue(n).trim()}
+  var map=L.map('map',{scrollWheelZoom:false,minZoom:10,maxZoom:17,maxBounds:[[35.47,139.55],[35.80,140.00]],maxBoundsViscosity:.8});
+  window.__map=map;
+  map.attributionControl.setPrefix(false).addAttribution('© OpenStreetMap');
+  map.fitBounds([[35.54,139.66],[35.72,139.89]]);
+  var base=L.layerGroup().addTo(map),rails=L.layerGroup().addTo(map),days=L.layerGroup().addTo(map);
+  var DATA=null;
+  function icon(t,c,home){return L.divIcon({className:'',iconSize:[24,24],iconAnchor:[12,12],popupAnchor:[0,-12],html:'<span class="pin'+(home?' home':'')+'" style="--c:'+c+'">'+t+'</span>'})}
+  function pop(t,s,q){return '<b>'+t+'</b><br>'+s+'<br><a href="'+searchUrl(q)+'" target="_blank" rel="noopener">在谷歌地图打开 ↗</a>'}
+  function drawBase(){
+    base.clearLayers();rails.clearLayers();if(!DATA)return;
+    L.polygon(DATA.land,{color:tok('--land-edge'),weight:.8,fillColor:tok('--land'),fillOpacity:1,interactive:false}).addTo(base);
+    (DATA.sea||[]).forEach(function(r){L.polygon(r,{stroke:false,fillColor:tok('--sea'),fillOpacity:1,interactive:false}).addTo(base)});
+    (DATA.islands||[]).forEach(function(r){L.polygon(r,{color:tok('--land-edge'),weight:.8,fillColor:tok('--land'),fillOpacity:1,interactive:false}).addTo(base)});
+    var act=current==='all'?null:DAYS[current].lines;
+    DATA.rail.forEach(function(r){var on=!act||act.indexOf(r.key)>-1;L.polyline(r.segs,{color:r.color,weight:on?3:2,opacity:on?.85:.15,interactive:false}).addTo(rails)});
+  }
+  function drawDays(){
+    days.clearLayers();var list=current==='all'?ORDER:[current],pts=[];
+    list.forEach(function(k){
+      var d=DAYS[k],col=tok(d.c);
+      L.polyline(d.path.split(' ').map(function(id){return P[id]}),{color:col,weight:current==='all'?2.5:3.5,opacity:.9,dashArray:'6 6',interactive:false}).addTo(days);
+      d.stops.forEach(function(s,i){
+        var m=L.marker(P[s[0]],{icon:icon(i+1,col),title:s[1]}).bindPopup(pop(k.toUpperCase()+' · '+s[1],s[2],s[3]));
+        var dir=s[4]||'right',off={right:[12,0],left:[-12,0],top:[0,-12],bottom:[0,12]}[dir];
+        if(current!=='all')m.bindTooltip(s[1],{permanent:true,direction:dir,offset:off,className:'lbl'});
+        m.addTo(days);if(current==='all'||s[0]!=='hnd')pts.push(P[s[0]]);
+      });
+    });
+    L.marker(P.hotel,{icon:icon('宿',tok('--ink'),true),title:'酒店',zIndexOffset:500}).bindPopup(pop('酒店 · 日本桥人形町一带','人形町、浜町、水天宫前三站之间','浜町駅')).addTo(days);
+    pts.push(P.hotel);
+    map.fitBounds(L.latLngBounds(pts).pad(.12),{maxZoom:15});
+  }
+  function legend(){
+    var keys=current==='all'?Object.keys(NAMES):DAYS[current].lines,col={};
+    if(DATA)DATA.rail.forEach(function(r){col[r.key]=r.color});
+    document.getElementById('legend').innerHTML=keys.map(function(k){return '<span><i style="background:'+(col[k]||'#ccc')+'"></i>'+NAMES[k]+'</span>'}).join('');
+  }
+  window.__draw=function(){drawBase();drawDays();legend()};
+  window.__draw();
+  fetch('assets/mapdata.json').then(function(r){return r.json()}).then(function(d){DATA=d;drawBase();legend()}).catch(function(){});
+})();
+</script>
+</body>
+</html>
